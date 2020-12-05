@@ -1,0 +1,46 @@
+ArrayList<Integer> path = new ArrayList<Integer>();
+		boolean[] visited = new boolean[g.members.length];
+		for(int b = 0; b < visited.length; b++) {
+			visited[b] = false;
+		}
+		Queue<Integer> track = new Queue<Integer>();
+		int sInd = g.map.get(p1);
+		int eInd = g.map.get(p2);
+		track.enqueue(sInd);
+		visited[sInd] = true;
+		while(!(track.isEmpty())) {
+			int curr = track.dequeue();
+			path.add(curr);
+			for(Friend fPtr = g.members[curr].first; fPtr != null; fPtr = fPtr.next) {
+				if(fPtr.fnum == eInd) {
+					path.add(fPtr.fnum);
+					ArrayList<Integer> realPath = new ArrayList<Integer>();
+					//boolean[] tVisit = new boolean[g.members.length];
+					int t = path.size()-1;
+					int n1 = path.get(t);
+					int n2 = path.get(t-1);
+					realPath.add(0, n1);
+					 t = t - 1;
+					while(t>=0) {
+						for(Friend ptr = g.members[n1].first; ptr != null; ptr = ptr.next) {
+							if(ptr.fnum == n2) {
+								realPath.add(0, n2);
+								n1 = n2;
+								n2 = path.get(t-1);
+								break;
+							}
+						}
+						t--;
+					}
+					
+					for(int i = 0; i < realPath.size(); i++) {
+						shortPath.add(g.members[realPath.get(i)].name);
+					}
+					return shortPath;
+				}
+				if(visited[fPtr.fnum] == false) {
+					track.enqueue(fPtr.fnum);
+					visited[fPtr.fnum] = true;
+				}
+			}
+	}

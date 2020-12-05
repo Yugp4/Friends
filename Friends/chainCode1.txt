@@ -1,0 +1,5 @@
+path.add(fPtr.fnum);
+					for(int i = 0; i < path.size(); i++) {
+						shortPath.add(i, g.members[path.get(i)].name);
+					}
+					return shortPath;
